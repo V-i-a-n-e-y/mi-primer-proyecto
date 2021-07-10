@@ -4,17 +4,17 @@
  */
 package Operaciones;
 
-import java.io.File;
+//import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JFileChooser;
+//import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
 
 /**
  * @author Vianey Hernandez Miramontes
@@ -56,7 +56,7 @@ public class Conexion{
                             consulta = conexion.createStatement();
                             System.out.println("conexion establecida");
                             
-             //  conexion.close();              
+             // conexion.close();              
 			} catch (SQLException e) {
                             JOptionPane.showMessageDialog(null, e.getMessage());
                         }

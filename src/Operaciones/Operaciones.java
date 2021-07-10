@@ -13,18 +13,18 @@ import Objetos.Licenciatura;
 import Objetos.Tutor;
 import Objetos.Servicios1;
 import Objetos.Institucion;
-import Objetos.Pdf;
-import Ventanas.RegistroUser;
-import Ventanas.InicioSesion;
-import Ventanas.Menu;
-import java.sql.Connection;
+//import Objetos.Pdf;
+//import Ventanas.RegistroUser;
+//import Ventanas.InicioSesion;
+//import Ventanas.Menu;
+//import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,7 +36,6 @@ public class Operaciones extends Conexion{
     
 
     public static void guardarLicenciatura(Licenciatura licenciatura) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -52,8 +51,8 @@ public class Operaciones extends Conexion{
         conectar();
         try {
             consulta.executeUpdate(sql);
-            consulta.close();
-            conexion.close();
+           // consulta.close();
+          //  conexion.close();
         } catch (SQLException e) {
                 valor = false;
                 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -63,7 +62,7 @@ public class Operaciones extends Conexion{
                  consulta.close();  
                  conexion.close();  
              }catch (Exception e){                 
-                 e.printStackTrace();  
+                // e.printStackTrace();  
              }  
         }
         return valor;
@@ -103,17 +102,16 @@ public class Operaciones extends Conexion{
         try {
             //  int folio = auto_lic();
             insertar("insert into Licenciatura values('"+licenciatura.getFolio()
-                    +"', '"+licenciatura.getGrado()
+                    +"','"+licenciatura.getGrado()
                     +"','"+licenciatura.getPractica()
                     +"','"+licenciatura.getFecha_inicio()
-                    +"', "+licenciatura.getFecha_termino()
-                    +","+licenciatura.getNo_alumnos()
-                    +",'"+licenciatura.getSemestre()
+                    +"','"+licenciatura.getFecha_termino()
+                    +"','"+licenciatura.getNo_alumnos()
+                    +"','"+licenciatura.getSemestre()
                     +"','"+licenciatura.getTurno()
                     +"','"+licenciatura.getHora_entrada()
                     +"','"+licenciatura.getHora_salida()
-                    //+"',"+auto_lic()
-                    +",'"+licenciatura.getId_institucion()
+                    +"','"+licenciatura.getId_institucion()
                     +"',"+licenciatura.getId_tutor()+","+licenciatura.getId_usuario()+")");
             conexion.close();
         } catch (SQLException ex) {
@@ -127,8 +125,8 @@ public class Operaciones extends Conexion{
      
       public void guardartutor(Tutor tutor){
         try {
-            insertar("insert into Servicios values('"+tutor.getId_tutor()
-                    +"',.'"+tutor.getNom_tutor()
+            insertar("insert into tutor values('"+tutor.getId_tutor()
+                    +"','"+tutor.getNom_tutor()
                     +"','"+tutor.getApellidoPaterno()
                     +"','"+tutor.getApellidoMaterno()
                     +"','"+tutor.getCorreo()
@@ -144,7 +142,7 @@ public class Operaciones extends Conexion{
       public void guardarServicios1(Servicios1 servicios1){
         try {
             insertar("insert into servicios1 values('"+servicios1.getId_servicio()
-                    +"', '"+servicios1.getFolio()
+                    +"','"+servicios1.getFolio()
                     +"','"+servicios1.getNombre_servicio()
                     +"','"+servicios1.getNum_alumno()
                     +"','"+servicios1.getFecha_de_inicio()
@@ -157,7 +155,7 @@ public class Operaciones extends Conexion{
       
       public void guardarinstitucion(Institucion institucion){
         try {
-            insertar("insert into institución values('"+institucion.getId_institucion()
+            insertar("insert into institucion values('"+institucion.getId_institucion()
                     +"','"+institucion.getNom_inst()+"')");
             conexion.close();
         } catch (SQLException ex) {
@@ -168,7 +166,7 @@ public class Operaciones extends Conexion{
       
       
       public ResultSet totalLicenciaturas(DefaultTableModel tableModel, String lic){
-      ResultSet resultado = null;
+      ResultSet resul = null;
        
         PreparedStatement pst;
         pst=null;
@@ -179,16 +177,16 @@ public class Operaciones extends Conexion{
             pst = conexion.prepareStatement("select  nom_inst, practica, no_alumnos,  fecha_inicio, fecha_termino, nom_tutor, apellidoPaterno, apellidoMaterno from licenciatura inner join institucion on  institucion.id_institucion = licenciatura.id_institucion inner join  tutor  on tutor.id_tutor = licenciatura.folio where institucion.nom_inst = ? ");
             
             pst.setString(1, lic);
-        resultado = pst.executeQuery();
-            if(resultado != null){
-                int numeroColumna = resultado.getMetaData().getColumnCount();
+        resul = pst.executeQuery();
+            if(resul != null){
+                int numeroColumna = resul.getMetaData().getColumnCount();
                 for(int j = 1;j <= numeroColumna;j++){
-                    tableModel.addColumn(resultado.getMetaData().getColumnName(j));
+                    tableModel.addColumn(resul.getMetaData().getColumnName(j));
                 }
-                while(resultado.next()){
+                while(resul.next()){
                     Object []objetos = new Object[numeroColumna];
                     for(int i = 1;i <= numeroColumna;i++){
-                        objetos[i-1] = resultado.getObject(i);
+                        objetos[i-1] = resul.getObject(i);
                     }
                     tableModel.addRow(objetos);
                 }
@@ -203,19 +201,19 @@ public class Operaciones extends Conexion{
          {
              consulta.close();
              conexion.close();
-             if(resultado != null){
-                resultado.close();
+             if(resul != null){
+                resul.close();
              }
          }
          catch (Exception e)
          {
-             e.printStackTrace();
+            // e.printStackTrace();
          }
           
-     }return resultado;
+     }return resul;
     }
       public ResultSet totalDocumentos(DefaultTableModel tableModel, String doc){
-      ResultSet resultado = null;
+      ResultSet resul = null;
        
         PreparedStatement pst;
         pst=null;
@@ -225,16 +223,16 @@ public class Operaciones extends Conexion{
             pst = conexion.prepareStatement("select ruta_docum as ruta_cartasol, ruta_cartacep, ruta_docum, ruta_docum as nom_inst, fecha_inicio, fecha_termino,turno from licenciatura inner join institucion on institucion.id_institucion = licenciatura.id_institucion inner join pdf on pdf.folio = licenciatura.folio where institucion.nom_inst = ?");
             
             pst.setString(1, doc);
-        resultado = pst.executeQuery();
-            if(resultado != null){
-                int numeroColumna = resultado.getMetaData().getColumnCount();
+        resul = pst.executeQuery();
+            if(resul != null){
+                int numeroColumna = resul.getMetaData().getColumnCount();
                 for(int j = 1;j <= numeroColumna;j++){
-                    tableModel.addColumn(resultado.getMetaData().getColumnName(j));
+                    tableModel.addColumn(resul.getMetaData().getColumnName(j));
                 }
-                while(resultado.next()){
+                while(resul.next()){
                     Object []objetos = new Object[numeroColumna];
                     for(int i = 1;i <= numeroColumna;i++){
-                        objetos[i-1] = resultado.getObject(i);
+                        objetos[i-1] = resul.getObject(i);
                     }
                     tableModel.addRow(objetos);
                 }
@@ -248,42 +246,42 @@ public class Operaciones extends Conexion{
          {
              consulta.close();
              conexion.close();
-             if(resultado != null){
-                resultado.close();
+             if(resul != null){
+                resul.close();
              }
          }
          catch (Exception e)
          {
-             e.printStackTrace();
+           //  e.printStackTrace();
          }
           
-     }return resultado;
+     }return resul;
     }
       
       
     public void totalPersonas(DefaultTableModel tableModel){
-      ResultSet resultado = null;
+      ResultSet resul = null;
         tableModel.setRowCount(0);
         tableModel.setColumnCount(0);
         String sql = "select nombres, primer_apellido, segundo_apellido, usuario from persona";
         try {
            conectar();
-            resultado = consultar(sql);
-            if(resultado != null){
-                int numeroColumna = resultado.getMetaData().getColumnCount();
+            resul = consultar(sql);
+            if(resul != null){
+                int numeroColumna = resul.getMetaData().getColumnCount();
                 for(int j = 1;j <= numeroColumna;j++){
-                    tableModel.addColumn(resultado.getMetaData().getColumnName(j));
+                    tableModel.addColumn(resul.getMetaData().getColumnName(j));
                 }
-                while(resultado.next()){
+                while(resul.next()){
                     Object []objetos = new Object[numeroColumna];
                     for(int i = 1;i <= numeroColumna;i++){
-                        objetos[i-1] = resultado.getObject(i);
+                        objetos[i-1] = resul.getObject(i);
                     }
                     tableModel.addRow(objetos);
                 }
             }
             
-            resultado.close();
+            resul.close();
         }catch(SQLException e){
         }
 
@@ -293,13 +291,13 @@ public class Operaciones extends Conexion{
          {
              consulta.close();
              conexion.close();
-             if(resultado != null){
-                resultado.close();
+             if(resul != null){
+                resul.close();
              }
          }
          catch (Exception e)
          {
-             e.printStackTrace();
+            // e.printStackTrace();
          }
      }
     }
@@ -561,7 +559,7 @@ public class Operaciones extends Conexion{
     }*/
       
     public ResultSet totalServicios(DefaultTableModel tableModel, String ins){
-      ResultSet resultado = null;
+      ResultSet resul = null;
        
         PreparedStatement pst;
         pst=null;
@@ -570,22 +568,22 @@ public class Operaciones extends Conexion{
             conectar();
             pst = conexion.prepareStatement("select nom_inst, nombre_servicio, no_alumnos,  fecha_inicio, fecha_termino from licenciatura inner join institucion on  institucion.id_institucion = licenciatura.id_institucion inner join  servicios1 on servicios1.folio = licenciatura.folio  where institucion.nom_inst =?");
             pst.setString(1, ins);
-        resultado = pst.executeQuery();
-            if(resultado != null){
-                int numeroColumna = resultado.getMetaData().getColumnCount();
+        resul = pst.executeQuery();
+            if(resul != null){
+                int numeroColumna = resul.getMetaData().getColumnCount();
                 for(int j = 1;j <= numeroColumna;j++){
-                    tableModel.addColumn(resultado.getMetaData().getColumnName(j));
+                    tableModel.addColumn(resul.getMetaData().getColumnName(j));
                 }
-                while(resultado.next()){
+                while(resul.next()){
                     Object []objetos = new Object[numeroColumna];
                     for(int i = 1;i <= numeroColumna;i++){
-                        objetos[i-1] = resultado.getObject(i);
+                        objetos[i-1] = resul.getObject(i);
                     }
                     tableModel.addRow(objetos);
                 }
             }
             pst.close();
-                resultado.close();
+                resul.close();
                 conexion.close();
         }catch(SQLException e){
         }
@@ -596,16 +594,16 @@ public class Operaciones extends Conexion{
          {
              consulta.close();
              conexion.close();
-             if(resultado != null){
-                resultado.close();
+             if(resul != null){
+                resul.close();
              }
          }
          catch (Exception e)
          {
-             e.printStackTrace();
+           //  e.printStackTrace();
          }
           
-     }return resultado;
+     }return resul;
     }
 
 
@@ -616,6 +614,7 @@ public int auto_lic() {
         int id = 1;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        
         conectar();
         try {
             ps = conexion.prepareStatement("select Max(folio) from licenciatura;");
@@ -623,9 +622,7 @@ public int auto_lic() {
             rs = ps.executeQuery();
             while (rs.next()) {
                 id = rs.getInt(1) + 1;
-                ps.close();
-                rs.close();
-                conexion.close();
+               
             }
         } catch (Exception ex) {
             System.out.println("idmaximo" + ex.getMessage());
@@ -644,6 +641,7 @@ public int auto_lic() {
         return id;
     }
 
+
 public int auto_tutor() {
         int id = 1;
         PreparedStatement ps = null;
@@ -655,9 +653,9 @@ public int auto_tutor() {
             rs = ps.executeQuery();
             while (rs.next()) {
                 id = rs.getInt(1) + 1;
-                ps.close();
-                rs.close();
-                conexion.close();
+               // ps.close();
+                //rs.close();
+               // conexion.close();
             }
         } catch (Exception ex) {
             System.out.println("idmaximo" + ex.getMessage());
@@ -687,9 +685,9 @@ public int auto_institucion() {
             rs = ps.executeQuery();
             while (rs.next()) {
                 id = rs.getInt(1) + 1;
-                ps.close();
-                rs.close();
-                conexion.close();
+               // ps.close();
+               // rs.close();
+              //  conexion.close();
             }
         } catch (Exception ex) {
             System.out.println("idmaximo" + ex.getMessage());
@@ -722,9 +720,9 @@ public int auto_incrementablepersona() {
             rs = ps.executeQuery();
             while (rs.next()) {
                 id = rs.getInt(1) + 1;
-                ps.close();
-                rs.close();
-                conexion.close();
+               // ps.close();
+               // rs.close();
+               // conexion.close();
             }
         } catch (Exception ex) {
             System.out.println("idmaximo" + ex.getMessage());
@@ -753,9 +751,9 @@ public int auto_incrementablepersona() {
             rs = ps.executeQuery();
             while (rs.next()) {
                 id = rs.getInt(1) + 1;
-                ps.close();
-                rs.close();
-                conexion.close();
+              //  ps.close();
+               // rs.close();
+               // conexion.close();
             }
         } catch (Exception ex) {
             System.out.println("idmaximo" + ex.getMessage());

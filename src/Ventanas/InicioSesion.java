@@ -7,7 +7,7 @@ package Ventanas;
 
 import Objetos.Persona;
 import Operaciones.Operaciones;
-import static java.util.Objects.hash;
+//import static java.util.Objects.hash;
 //import static Ventanas.Inicio.frmregistrouser;
 import javax.swing.JOptionPane;
 /**
@@ -25,7 +25,7 @@ public class InicioSesion extends javax.swing.JFrame {
     public InicioSesion() {
         initComponents();
         Operaciones oper = new Operaciones();
-        oper.conectar();
+       // oper.conectar();
          setLocationRelativeTo(null);
         setResizable(false);
         setTitle("Inicio de sesión");
