@@ -51,8 +51,8 @@ public class Operaciones extends Conexion{
         conectar();
         try {
             consulta.executeUpdate(sql);
-           // consulta.close();
-          //  conexion.close();
+           consulta.close();
+           conexion.close();
         } catch (SQLException e) {
                 valor = false;
                 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -173,8 +173,7 @@ public class Operaciones extends Conexion{
         
         try {
             conectar();
-            //"select * from licenciatura where institucion=?"
-            pst = conexion.prepareStatement("select  nom_inst, practica, no_alumnos,  fecha_inicio, fecha_termino, nom_tutor, apellidoPaterno, apellidoMaterno from licenciatura inner join institucion on  institucion.id_institucion = licenciatura.id_institucion inner join  tutor  on tutor.id_tutor = licenciatura.folio where institucion.nom_inst = ? ");
+            pst = conexion.prepareStatement("select  folio, nom_inst, parctica, no_alumnos,  semestre, fecha_inicio, fecha_termino, hora_entrada, hora_salida, turno,  nom_tutor, apellidoPaterno, apellidoMaterno from licenciatura inner join institucion on  institucion.id_institucion = licenciatura.id_institucion inner join  tutor  on tutor.id_tutor = licenciatura.folio where institucion.nom_inst = ? ");
             
             pst.setString(1, lic);
         resul = pst.executeQuery();
@@ -212,6 +211,7 @@ public class Operaciones extends Conexion{
           
      }return resul;
     }
+      
       public ResultSet totalDocumentos(DefaultTableModel tableModel, String doc){
       ResultSet resul = null;
        
@@ -220,7 +220,7 @@ public class Operaciones extends Conexion{
         
         try {
             conectar();
-            pst = conexion.prepareStatement("select ruta_docum as ruta_cartasol, ruta_cartacep, ruta_docum, ruta_docum as nom_inst, fecha_inicio, fecha_termino,turno from licenciatura inner join institucion on institucion.id_institucion = licenciatura.id_institucion inner join pdf on pdf.folio = licenciatura.folio where institucion.nom_inst = ?");
+            pst = conexion.prepareStatement("select codigopdf,  nombrepdf, archivopdf , nom_inst, fecha_inicio, fecha_termino, turno from licenciatura inner join institucion on institucion.id_institucion = licenciatura.id_institucion inner join pdf on pdf.folio = licenciatura.folio where institucion.nom_inst  = ?");
             
             pst.setString(1, doc);
         resul = pst.executeQuery();
@@ -366,7 +366,7 @@ public class Operaciones extends Conexion{
         tableModel.setRowCount(0);
         tableModel.setColumnCount(0);
         String sql;
-        sql = "select  T1.Institucion, T2.Servicio, T2.Alumnos, T2.fecha_de_inicio  from licenciatura T1 inner Join servicios T2 on T1.Institucion = T2.Institucion where T1.Institucion = '"+licenciatura+"';";
+        sql = "select  T1.Institucion, T2.Servicio, T2.Alumnos, T2.fecha_de_inicio  from licenciatura T1 inner Join servicios1 T2 on T1.Institucion = T2.Institucion where T1.Institucion = '"+licenciatura+"';";
         JOptionPane.showMessageDialog(null, sql);
         try {
             resultado = consultar(sql);
@@ -432,6 +432,7 @@ public class Operaciones extends Conexion{
                 }
             }
            conexion.close();
+           
             return false;
            
         }catch(SQLException e){
@@ -566,7 +567,7 @@ public class Operaciones extends Conexion{
         
         try {
             conectar();
-            pst = conexion.prepareStatement("select nom_inst, nombre_servicio, no_alumnos,  fecha_inicio, fecha_termino from licenciatura inner join institucion on  institucion.id_institucion = licenciatura.id_institucion inner join  servicios1 on servicios1.folio = licenciatura.folio  where institucion.nom_inst =?");
+            pst = conexion.prepareStatement("select nom_inst,  nombre_servicio, num_alumno,  fecha_de_inicio, fecha_de_termino from licenciatura inner join institucion on  institucion.id_institucion = licenciatura.id_institucion inner join  servicios1 on servicios1.folio = licenciatura.folio  where institucion.nom_inst =?");
             pst.setString(1, ins);
         resul = pst.executeQuery();
             if(resul != null){
@@ -653,9 +654,9 @@ public int auto_tutor() {
             rs = ps.executeQuery();
             while (rs.next()) {
                 id = rs.getInt(1) + 1;
-               // ps.close();
-                //rs.close();
-               // conexion.close();
+                ps.close();
+                rs.close();
+                conexion.close();
             }
         } catch (Exception ex) {
             System.out.println("idmaximo" + ex.getMessage());
@@ -685,9 +686,9 @@ public int auto_institucion() {
             rs = ps.executeQuery();
             while (rs.next()) {
                 id = rs.getInt(1) + 1;
-               // ps.close();
-               // rs.close();
-              //  conexion.close();
+                ps.close();
+                rs.close();
+                conexion.close();
             }
         } catch (Exception ex) {
             System.out.println("idmaximo" + ex.getMessage());
@@ -720,9 +721,9 @@ public int auto_incrementablepersona() {
             rs = ps.executeQuery();
             while (rs.next()) {
                 id = rs.getInt(1) + 1;
-               // ps.close();
-               // rs.close();
-               // conexion.close();
+                ps.close();
+                rs.close();
+                conexion.close();
             }
         } catch (Exception ex) {
             System.out.println("idmaximo" + ex.getMessage());
@@ -751,9 +752,9 @@ public int auto_incrementablepersona() {
             rs = ps.executeQuery();
             while (rs.next()) {
                 id = rs.getInt(1) + 1;
-              //  ps.close();
-               // rs.close();
-               // conexion.close();
+                ps.close();
+                rs.close();
+                conexion.close();
             }
         } catch (Exception ex) {
             System.out.println("idmaximo" + ex.getMessage());

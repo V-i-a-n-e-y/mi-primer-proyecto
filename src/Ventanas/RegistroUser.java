@@ -21,8 +21,8 @@ public class RegistroUser extends javax.swing.JFrame {
     public RegistroUser(){
         initComponents();
         operaciones = new Operaciones();
-        operaciones.conectar();
-         setLocationRelativeTo(null);
+        //operaciones.conectar();
+        setLocationRelativeTo(null);
         setResizable(false);
         setTitle("Registro de usuarios");
     }
